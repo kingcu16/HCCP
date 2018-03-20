@@ -30,13 +30,19 @@
 			 color: #ffffff;
 			 padding: 15px;
 		}
+		.menu div{
+			padding: 8px;
+			
+		}
 		.menu ul{
 			list-style:none;
 			margin:0;
 			padding: 0;
 			
 		}
-		.menu li{
+
+		.menu li,select{
+
 			padding: 8px;
 			margin-bottom: 7px;
 			background: #23867c;
@@ -47,10 +53,23 @@
 			-webkit-transition: all 1s;	/* Safari 和 Chrome */
 			-o-transition: all 1s;
 		}
+		[id*="selectL"]{
+			height: 65px;
+			padding: 0;
+		}
+		select{
+			border: none;
+			box-shadow: none;
+		}
 		.menu li:hover{
 			background-color: #72bab5;
 		}
-		
+		.active{
+			background-color: #72bab5;
+		}
+		[class*="menu-2-"]{
+			display: none;
+		}
 		/*移动端*/
 		@media only screen and (max-width: 768px)
 		{
