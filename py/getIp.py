@@ -46,7 +46,7 @@ class IPagent:
                 #print(r.text[:10])
             except:
                 pass
-    def Save(self,Path='IP.txt'):
+    def Save(self,Path='../data/IPagent.txt'):
         with open(Path,'w') as f:
             for h,i in IpListUse:
                 f.write(h+','+i+'\n')
