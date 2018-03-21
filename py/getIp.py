@@ -11,15 +11,18 @@ import requests
 from bs4 import BeautifulSoup
 
 class IPagent:
-    self.urls='http://www.xicidaili.com/nn/'
-    self.Stop=100
-    self.IpListAll=[]
-    self.http=[]
-    self.IpListUse=[]
-    self.H={
-       'Upgrade-Insecure-Requests':'1',
-       'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36'}
+    def __init__(self):
+        self.urls='http://www.xicidaili.com/nn/'
+        self.Stop=100
+        self.IpListAll=[]
+        self.http=[]
+        self.IpListUse=[]
+        self.H={
+           'Upgrade-Insecure-Requests':'1',
+           'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36'}
     def StartGet(self):
+        self.IpListAll=[]
+        self.IpListUse=[]
         for i in range(1,self.Stop):
             try:
                 r=requests.get(self.urls+str(i),headers=self.H)
