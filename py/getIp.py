@@ -45,7 +45,7 @@ class IPagent:
             try:
                 r=requests.get('http://httpbin.org/get',proxies=proxy,timeout=1,headers=self.H)
                 r.raise_for_status()
-                IpListUse.append((self.http[i],self.IpListAll[i]))
+                self.IpListUse.append((self.http[i],self.IpListAll[i]))
                 #print(r.text[:10])
             except:
                 pass
@@ -53,7 +53,8 @@ class IPagent:
         with open(Path,'w') as f:
             for h,i in IpListUse:
                 f.write(h+','+i+'\n')
-
+    def getData(self):
+        return self.IpListUse
 if __name__ == '__main__':
     I=IPagent();
     I.StartGet();

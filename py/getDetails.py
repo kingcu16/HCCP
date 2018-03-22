@@ -16,7 +16,7 @@ class  getDetail(object):
 		self.urls='http://lishi.tianqi.com/acheng/index.html'
 		self.H={
 			'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36'}
-
+		self.proxy={}
 		self.details=[]
 		'''
 		self.details=[
@@ -54,7 +54,7 @@ class  getDetail(object):
 	def Init(self):
 		self.details=[]
 		try:
-			r=requests.get(self.urls,headers=self.H)
+			r=requests.get(self.urls,headers=self.H,proxies=self.proxy,timeout=2)
 			r.raise_for_status()
 			bcon=BeautifulSoup(r.text,'html.parser')
 			dataall=bcon.find_all('div','tqtongji')
@@ -91,7 +91,9 @@ class  getDetail(object):
 				detail1[str(year)+'-'+str(mm)]=i['href']
 			self.details.append(detail1)
 		except Exception as e:
-			print(e+'tongjiData')
+			self.details=[]
+			print(e)
+			print(self.urls)
 	def Save(self,Path='details.txt'):
 		with open(Path,'w') as f:
 				for i in self.details:

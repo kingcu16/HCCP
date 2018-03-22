@@ -27,7 +27,7 @@ class getMouthData(object):
 	def Init(self):
 		self.detailData=[]
 		try:
-			r=requests.get(self.urls,headers=self.H,proxies=self.proxy)
+			r=requests.get(self.urls,headers=self.H,proxies=self.proxy,timeout=2)
 			r.raise_for_status()
 			bcon=BeautifulSoup(r.text,'html.parser')
 			d=bcon.find_all('div','tqtongji2')[0].find_all('ul')[1:]
@@ -45,6 +45,7 @@ class getMouthData(object):
 				temprow['风力']=str(row[5].string)
 				self.detailData.append(temprow)
 		except Exception as e:
+			self.detailData=[]
 			print(e)
 			print(self.urls)
 	def Save(self,Path='detailData.txt'):

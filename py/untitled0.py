@@ -1,20 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Thu Mar 22 15:40:41 2018
 
 @author: CopperWang
 @email: kingcu16@163.com
 
 """
-import requests
-from bs4 import BeautifulSoup
-import random
-import re
-import pymysql
-import pymysql.cursors
-import getIp
-import getData
-import getDetails
-import getDDetail
+
 city=[
 	'海门',
         '鄂尔多斯',
@@ -207,69 +199,5 @@ city=[
         '武汉',
         '大庆'
         ]
-tjDataTable=[]
-detailDataTable=[]
-IPagents=[]
-def PrePare():
-    global IPagents
-    I=getIp.IPagent()
-    I.StartGet()
-    IPagents=I.getData()
-def Start():
-    global tjDataTable
-    global detailDataTable
-    CityD=getData.CityData()
-    CityD.Init()
-    Citys=CityD.getData()
-    tongji=getDetails.getDetail()
-    detail=getDDetail.getMouthData()
-    count=0
-    for c in city:
-        if c in Citys:
-            if len(IPagents)!=0:
-                proxy=random.choice(IPagents)
-                proxies=proxy[0]+":"+proxy[0]+"://"+proxy[1]
-                tongji.proxy=proxies
-            tongji.urls=Citys[c]
-            tongji.Init()
-            tjData=tongji.getData()
-            if len(tjData)==0:
-                continue
-            from_t=tjData[0]['from']
-            to_t=tjData[0]['to']
-            for i in [1,2,3]:
-                for key in tjData[i]:
-                    tjDataTable.append([c,from_t,to_t,key,tjData[i][key]])
-            for Mounth in tjData[4]:
-                if len(IPagents)!=0:
-                    proxy=random.choice(IPagents)
-                    proxies=proxy[0]+":"+proxy[0]+"://"+proxy[1]
-                    detail.proxy=proxies
-                detail.urls=tjData[4][Mounth]
-                detail.Init()
-                detailData=detail.getData()
-                if len(detailData)==0:
-                    continue
-                for row in detailData:
-                    detailDataTable.append([c,Mounth,row['最高温'],row['最低温'],row['天气'],row['风向'],row['风力']])
-        count+=1
-        print('\r'+str(count/len(city)*100)+'%')
-def Insert():
-	config={'host':'123.206.208.213','user':'root','password':'king','db':'HCCP','port':3306,'charset':'utf8'}
-	try:
-		conn=pymysql.connect(**config)
-		cursor=conn.cursor()
-		for rows in tjDataTable:
-			Istring='insert into tqtongji values("'+rows[0]+'","'+rows[1]+'","'+rows[2]+'","'+rows[3]+'",'+str(rows[4])+')'
-			cursor.execute(Istring)
-		for rows in detailDataTable:
-			Istring='insert into tqdetail values("'+rows[0]+'","'+rows[1]+'","'+rows[2]+'","'+rows[3]+'","'+rows[4]+'","'+rows[5]+')'
-			cursor.execute(Istring)
-	except Exception as e:
-		print(e)
-	finally:
-		conn.close()
-if __name__ == '__main__':
-    #PrePare()
-    Start()
-    Insert()
+for i in city:
+    print("<option value='"+i+"'>"+i+"</option>")
