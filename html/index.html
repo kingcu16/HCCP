@@ -29,97 +29,260 @@
 			<div class="menu col-2">
 				<ul >
 					<li>
-						<div class="menu-1">
+						<div class="menu-1" id="choiceData">选择数据</div>
+						<div class="menu-2-1">
+							<ul>
+							<li>
+								<div id="tongjiData">
+									选择统计数据
+								</div>
+								<div class="menu-2-3">
+									<ul>
+										<li>天气</li>
+										<li>风力</li>
+										<li>风向</li>
+									</ul>
+								</div>
+							</li>
+							<li>
+								<div id="detailData">选择详细信息</div>
+								<div class="menu-2-3">
+									<ul>
+										<li>天气</li>
+										<li>温度</li>
+										<li>风力</li>
+										<li>风向</li>
+									</ul>
+								</div>
+							</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="menu-1" id="quyuChoice">选择地区</div>
+						<div class="menu-2-1">
+							<ul>
+								<li id="selectL1">
+									<select name="quyu" id="quyu" class="col-12">
+										<option value="contry">中国大陆</option>
+										<option value="part">地方</option>
+									</select>
+								</li>
+								<li class="menu-2-2" id="selectL2">
+									<select name="shenfen" id="sf" class="col-12">
+										<option value='海门'>海门</option>
+										<option value='鄂尔多斯'>鄂尔多斯</option>
+										<option value='招远'>招远</option>
+										<option value='舟山'>舟山</option>
+										<option value='齐齐哈尔'>齐齐哈尔</option>
+										<option value='盐城'>盐城</option>
+										<option value='赤峰'>赤峰</option>
+										<option value='青岛'>青岛</option>
+										<option value='乳山'>乳山</option>
+										<option value='金昌'>金昌</option>
+										<option value='泉州'>泉州</option>
+										<option value='莱西'>莱西</option>
+										<option value='日照'>日照</option>
+										<option value='胶南'>胶南</option>
+										<option value='南通'>南通</option>
+										<option value='拉萨'>拉萨</option>
+										<option value='云浮'>云浮</option>
+										<option value='梅州'>梅州</option>
+										<option value='文登'>文登</option>
+										<option value='上海'>上海</option>
+										<option value='攀枝花'>攀枝花</option>
+										<option value='威海'>威海</option>
+										<option value='承德'>承德</option>
+										<option value='厦门'>厦门</option>
+										<option value='汕尾'>汕尾</option>
+										<option value='潮州'>潮州</option>
+										<option value='丹东'>丹东</option>
+										<option value='太仓'>太仓</option>
+										<option value='曲靖'>曲靖</option>
+										<option value='烟台'>烟台</option>
+										<option value='福州'>福州</option>
+										<option value='瓦房店'>瓦房店</option>
+										<option value='即墨'>即墨</option>
+										<option value='抚顺'>抚顺</option>
+										<option value='玉溪'>玉溪</option>
+										<option value='张家口'>张家口</option>
+										<option value='阳泉'>阳泉</option>
+										<option value='莱州'>莱州</option>
+										<option value='湖州'>湖州</option>
+										<option value='汕头'>汕头</option>
+										<option value='昆山'>昆山</option>
+										<option value='宁波'>宁波</option>
+										<option value='湛江'>湛江</option>
+										<option value='揭阳'>揭阳</option>
+										<option value='荣成'>荣成</option>
+										<option value='连云港'>连云港</option>
+										<option value='葫芦岛'>葫芦岛</option>
+										<option value='常熟'>常熟</option>
+										<option value='东莞'>东莞</option>
+										<option value='河源'>河源</option>
+										<option value='淮安'>淮安</option>
+										<option value='泰州'>泰州</option>
+										<option value='南宁'>南宁</option>
+										<option value='营口'>营口</option>
+										<option value='惠州'>惠州</option>
+										<option value='江阴'>江阴</option>
+										<option value='蓬莱'>蓬莱</option>
+										<option value='韶关'>韶关</option>
+										<option value='嘉峪'>嘉峪</option>
+										<option value='广州'>广州</option>
+										<option value='延安'>延安</option>
+										<option value='太原'>太原</option>
+										<option value='清远'>清远</option>
+										<option value='中山'>中山</option>
+										<option value='昆明'>昆明</option>
+										<option value='寿光'>寿光</option>
+										<option value='盘锦'>盘锦</option>
+										<option value='长治'>长治</option>
+										<option value='深圳'>深圳</option>
+										<option value='珠海'>珠海</option>
+										<option value='宿迁'>宿迁</option>
+										<option value='咸阳'>咸阳</option>
+										<option value='铜川'>铜川</option>
+										<option value='平度'>平度</option>
+										<option value='佛山'>佛山</option>
+										<option value='海口'>海口</option>
+										<option value='江门'>江门</option>
+										<option value='章丘'>章丘</option>
+										<option value='肇庆'>肇庆</option>
+										<option value='大连'>大连</option>
+										<option value='临汾'>临汾</option>
+										<option value='吴江'>吴江</option>
+										<option value='石嘴山'>石嘴山</option>
+										<option value='沈阳'>沈阳</option>
+										<option value='苏州'>苏州</option>
+										<option value='茂名'>茂名</option>
+										<option value='嘉兴'>嘉兴</option>
+										<option value='长春'>长春</option>
+										<option value='胶州'>胶州</option>
+										<option value='银川'>银川</option>
+										<option value='张家港'>张家港</option>
+										<option value='三门峡'>三门峡</option>
+										<option value='锦州'>锦州</option>
+										<option value='南昌'>南昌</option>
+										<option value='柳州'>柳州</option>
+										<option value='三亚'>三亚</option>
+										<option value='自贡'>自贡</option>
+										<option value='吉林'>吉林</option>
+										<option value='阳江'>阳江</option>
+										<option value='泸州'>泸州</option>
+										<option value='西宁'>西宁</option>
+										<option value='宜宾'>宜宾</option>
+										<option value='呼和浩特'>呼和浩特</option>
+										<option value='成都'>成都</option>
+										<option value='大同'>大同</option>
+										<option value='镇江'>镇江</option>
+										<option value='桂林'>桂林</option>
+										<option value='张家界'>张家界</option>
+										<option value='宜兴'>宜兴</option>
+										<option value='北海'>北海</option>
+										<option value='西安'>西安</option>
+										<option value='金坛'>金坛</option>
+										<option value='东营'>东营</option>
+										<option value='牡丹江'>牡丹江</option>
+										<option value='遵义'>遵义</option>
+										<option value='绍兴'>绍兴</option>
+										<option value='扬州'>扬州</option>
+										<option value='常州'>常州</option>
+										<option value='潍坊'>潍坊</option>
+										<option value='重庆'>重庆</option>
+										<option value='台州'>台州</option>
+										<option value='南京'>南京</option>
+										<option value='滨州'>滨州</option>
+										<option value='贵阳'>贵阳</option>
+										<option value='无锡'>无锡</option>
+										<option value='本溪'>本溪</option>
+										<option value='克拉玛依'>克拉玛依</option>
+										<option value='渭南'>渭南</option>
+										<option value='马鞍山'>马鞍山</option>
+										<option value='宝鸡'>宝鸡</option>
+										<option value='焦作'>焦作</option>
+										<option value='句容'>句容</option>
+										<option value='北京'>北京</option>
+										<option value='徐州'>徐州</option>
+										<option value='衡水'>衡水</option>
+										<option value='包头'>包头</option>
+										<option value='绵阳'>绵阳</option>
+										<option value='乌鲁木齐'>乌鲁木齐</option>
+										<option value='枣庄'>枣庄</option>
+										<option value='杭州'>杭州</option>
+										<option value='淄博'>淄博</option>
+										<option value='鞍山'>鞍山</option>
+										<option value='溧阳'>溧阳</option>
+										<option value='库尔勒'>库尔勒</option>
+										<option value='安阳'>安阳</option>
+										<option value='开封'>开封</option>
+										<option value='济南'>济南</option>
+										<option value='德阳'>德阳</option>
+										<option value='温州'>温州</option>
+										<option value='九江'>九江</option>
+										<option value='邯郸'>邯郸</option>
+										<option value='临安'>临安</option>
+										<option value='兰州'>兰州</option>
+										<option value='沧州'>沧州</option>
+										<option value='临沂'>临沂</option>
+										<option value='南充'>南充</option>
+										<option value='天津'>天津</option>
+										<option value='富阳'>富阳</option>
+										<option value='泰安'>泰安</option>
+										<option value='诸暨'>诸暨</option>
+										<option value='郑州'>郑州</option>
+										<option value='哈尔滨'>哈尔滨</option>
+										<option value='聊城'>聊城</option>
+										<option value='芜湖'>芜湖</option>
+										<option value='唐山'>唐山</option>
+										<option value='平顶山'>平顶山</option>
+										<option value='邢台'>邢台</option>
+										<option value='德州'>德州</option>
+										<option value='济宁'>济宁</option>
+										<option value='荆州'>荆州</option>
+										<option value='宜昌'>宜昌</option>
+										<option value='义乌'>义乌</option>
+										<option value='丽水'>丽水</option>
+										<option value='洛阳'>洛阳</option>
+										<option value='秦皇岛'>秦皇岛</option>
+										<option value='株洲'>株洲</option>
+										<option value='石家庄'>石家庄</option>
+										<option value='莱芜'>莱芜</option>
+										<option value='常德'>常德</option>
+										<option value='保定'>保定</option>
+										<option value='湘潭'>湘潭</option>
+										<option value='金华'>金华</option>
+										<option value='岳阳'>岳阳</option>
+										<option value='长沙'>长沙</option>
+										<option value='衢州'>衢州</option>
+										<option value='廊坊'>廊坊</option>
+										<option value='菏泽'>菏泽</option>
+										<option value='合肥'>合肥</option>
+										<option value='武汉'>武汉</option>
+										<option value='大庆'>大庆</option>
+									</select>
+								</li>
+								<li class="menu-2-2" id="selectL3">
+									<input type="input" value="2018-02">
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="menu-1" id="Class">
 							选择显示类型
 						</div>
 						<div class="menu-2-1">
 							<ul>
-								<li class="menu-2">地图</li>
-								<li class="menu-2">柱状图</li>
-								<li class="menu-2">折线图</li>
-								<li class="menu-2">饼图</li>
-								<li class="menu-2">雷达图</li>
+								<li class="menu-2" id="map">地图</li>
+								<li class="menu-2" id="bar">柱状图</li>
+								<li class="menu-2" id="line">折线图</li>
+								<li class="menu-2" id="pie">饼图</li>
+								<li class="menu-2" id="radar">雷达图</li>
 							</ul>
 						</div>
 					</li>
-					<li>
-						<div class="menu-1">选择地区</div>
-						<div class="menu-2-1">
-							<ul>
-								<li class="menu-2" id="selectL1">
-									<select name="guojia" id="gj" class="col-12">
-										<option value="中国大陆">中国大陆</option>
-									</select>
-								</li>
-								<li class="menu-2" id="selectL2">
-									<select name="shenfen" id="sf" class="col-12">
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-										<option value=""></option>
-									</select>
-								</li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<div class="menu-1" id="menu-3">
-						选择主题颜色
-						</div>
-						<div class="menu-2-1">
-							<ul>
-								<li class="menu-2"></li>
-								<li class="menu-2"></li>
-								<li class="menu-2"></li>
-								<li class="menu-2"></li>
-							</ul>
-						</div>
-					</li>
-					<li><div class="menu-1">选择维度</div>
-					<div class="menu-2-1">
-						<ul>
-							<li class="menu-2">
-								总降雨天数
-							</li>
-							<li class="menu-2">
-								总风向情况
-							</li>
-							<li class="menu-2">
-								风力情况
-							</li>
-							<li class="menu-2">
-								晴雨天数对比
-							</li>
-						</ul>
-					</div></li>
+					<li id="tjiao">提交</li>					
 				</ul>
 			</div>
 			<div class="content col-9">
@@ -326,7 +489,7 @@
 		            color: '#fff'
 		        }
 		    };
-			MapInit(document.getElementById('dituContent'),data,title);
+			EchartInit(document.getElementById('dituContent'),data,title,'pie');
 		</script>
 		</div>
 		</div>
