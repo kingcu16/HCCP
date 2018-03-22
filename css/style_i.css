@@ -41,7 +41,7 @@
 			
 		}
 
-		.menu li,select{
+		.menu li,select,input[type='input']{
 
 			padding: 8px;
 			margin-bottom: 7px;
