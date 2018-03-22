@@ -233,13 +233,11 @@ function renderItem(params, api) {
             })
         };
 }
-function MapInit(obj,data,title)
-{
-    var myChart = echarts.init(obj);
-    var app = {};
-    option = null;
-    var convertData =ConvertData;
 
+function MapInit(data,title,flag)
+{
+    var convertData =ConvertData;
+    var option=null;
     option = {
         backgroundColor: '#404a59',
         title:title,
@@ -277,7 +275,7 @@ function MapInit(obj,data,title)
         },
         series : [
             {
-                name: 'pm2.5',
+                name: flag['地区'],
                 type: 'scatter',
                 coordinateSystem: 'geo',
                 data: convertData(data),
@@ -301,8 +299,8 @@ function MapInit(obj,data,title)
                 }
                 ,
                 animation: true,
-            animationDurationUpdate: 1000,
-            animationEasingUpdate: 'cubicInOut'
+                animationDurationUpdate: 1000,
+                animationEasingUpdate: 'cubicInOut'
             },
             {
                 name: 'Top 5',
@@ -338,57 +336,311 @@ function MapInit(obj,data,title)
             animationDurationUpdate: 1000,
             animationEasingUpdate: 'cubicInOut'
             },
+        ]
+    };
+    return option;
+}
+function SetTime(myChart){
+    var D=setTimeout(function () {
+        myChart.on('mouseup', function (params) {
+            if (!down) {
+                return;
+            }
+            down = false;
+
+            var e = params.event;
+
+            var geoCoord = myChart.convertFromPixel('geo', [e.offsetX, e.offsetY]);
+
+            myChart.setOption({
+                geo: [{
+                    center: geoCoord,
+                    zoom: 10,
+                    animationDurationUpdate: 1000,
+                    animationEasingUpdate: 'cubicInOut'
+                }]
+            });
+        });
+
+        var down;
+        myChart.on('mousedown', function () {
+            down = true;
+        });
+        myChart.on('mousemove', function () {
+            down = false;
+        });
+    }, 0);
+    return D;
+}
+function LineInit(datas,titles,flag)
+{
+    var option = null;
+    var ser=new Array();
+    var legends=Array();
+    for(var d in datas['data']){
+        legends.push(d[0]);
+        ser.push({
+                name:d[0],
+                type:'line',
+                stack: '总量',
+                data:d.slice(1)
+        });
+    }
+    option = {
+        title:titles,
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:legends
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: datas['x']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: ser
+    };
+    return option;
+}
+function barInit(datas,title,flag){
+    option = null;
+    option = {
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
             {
-                type: 'custom',
-                coordinateSystem: 'geo',
-                renderItem: renderItem,
-                itemStyle: {
-                    normal: {
-                        opacity: 0.5
-                    }
-                },
-                animation: false,
-                silent: true,
-                data: [0],
-                z: -10,
-                animation: true,
-            animationDurationUpdate: 1000,
-            animationEasingUpdate: 'cubicInOut'
+                type : 'category',
+                data : datas['x'],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:datas['name'],
+                type:'bar',
+                barWidth: '60%',
+                data:datas['vale']
             }
         ]
-    };;
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
-    setTimeout(function () {
+    };
+    return option
+}
+function RadarInit(datas,title,flag){
+    var lineStyle = {
+        normal: {
+            width: 1,
+            opacity: 0.5
+            }
+    };
+    var indict=new Array();
+    //init indict
+    option = {
+        backgroundColor: '#161627',
+        title:title,
+        legend: {
+            bottom: 5,
+            data: datas['x'],
+            itemGap: 20,
+            textStyle: {
+                color: '#fff',
+                fontSize: 14
+            },
+            selectedMode: 'single'
+        },
+        radar: {
+            indicator: [
+                {name: 'AQI', max: 300},
+                {name: 'PM2.5', max: 250},
+                {name: 'PM10', max: 300},
+                {name: 'CO', max: 5},
+                {name: 'NO2', max: 200},
+                {name: 'SO2', max: 100}
+            ],
+            shape: 'circle',
+            splitNumber: 5,
+            name: {
+                textStyle: {
+                    color: 'rgb(238, 197, 102)'
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: [
+                        'rgba(238, 197, 102, 0.1)', 'rgba(238, 197, 102, 0.2)',
+                        'rgba(238, 197, 102, 0.4)', 'rgba(238, 197, 102, 0.6)',
+                        'rgba(238, 197, 102, 0.8)', 'rgba(238, 197, 102, 1)'
+                    ].reverse()
+                }
+            },
+            splitArea: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: 'rgba(238, 197, 102, 0.5)'
+                }
+            }
+        },
+        series: [
+            {
+                name: '北京',
+                type: 'radar',
+                lineStyle: lineStyle,
+                data: datas,
+                symbol: 'none',
+                itemStyle: {
+                    normal: {
+                        color: '#F9713C'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        opacity: 0.1
+                    }
+                }
+            }
+        ]
+    };
+}
+function PieInit(datas,title,flag){
+    var option=null;
+    option = {
+        backgroundColor: '#2c343c',
 
-    myChart.on('mouseup', function (params) {
-        if (!down) {
-            return;
+        title:title,
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+                colorLightness: [0, 1]
+            }
+        },
+        series : [
+            {
+                name:'访问来源',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+                data:[
+                    {value:335, name:'直接访问'},
+                    {value:310, name:'邮件营销'},
+                    {value:274, name:'联盟广告'},
+                    {value:235, name:'视频广告'},
+                    {value:400, name:'搜索引擎'}
+                ].sort(function (a, b) { return a.value - b.value; }),
+                roseType: 'radius',
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 20
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#c23531',
+                        shadowBlur: 200,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    };
+    return option;
+}
+function EchartInit(obj,data,title,type,flag){
+    var myChart = echarts.init(obj);
+    var app = {};
+    var option = null;
+    if(type=="map"){
+        option=MapInit(data,title,flag);
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
         }
-        down = false;
-
-        var e = params.event;
-
-        var geoCoord = myChart.convertFromPixel('geo', [e.offsetX, e.offsetY]);
-
-        myChart.setOption({
-            geo: [{
-                center: geoCoord,
-                zoom: 10,
-                animationDurationUpdate: 1000,
-                animationEasingUpdate: 'cubicInOut'
-            }]
-        });
-    });
-
-    var down;
-    myChart.on('mousedown', function () {
-        down = true;
-    });
-    myChart.on('mousemove', function () {
-        down = false;
-    });
-
-}, 0);
+        TimeFlag=SetTime(myChart);
+        return;
+    }
+    if(type=="line"){
+        option=LineInit(data,title,flag);
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        return;
+    }
+    if(type=="bar"){
+        option=barInit(data,title,flag);
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        return;
+    }
+    if(type=="pie"){
+        option=PieInit(data,title,flag);
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        return;
+    }
+    if(type=="radar"){
+        option=RadarInit(data,title,flag);
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        return;
+    }
 }
