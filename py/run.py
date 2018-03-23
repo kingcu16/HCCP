@@ -98,7 +98,7 @@ def getDetailData(city,date,con):
             Info=s.split(':')
             for i in range(len(C[con])):
                 if re.match(con,Info[0]):
-                    if re.match(C[con][i], Info[1])
+                    if re.match(C[con][i], Info[1]):
                         ReturnData['value'][i]+=1;
     return json.dumps(ReturnData)
 def getTempData(city,date):
