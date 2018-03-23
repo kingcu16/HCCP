@@ -1,4 +1,4 @@
-var geoCoordMap = {
+document.geoCoordMap = {
         '海门':[121.15,31.89],
         '鄂尔多斯':[109.781327,39.608266],
         '招远':[120.38,37.35],
@@ -193,7 +193,7 @@ var geoCoordMap = {
 function ConvertData(data){
     var res = [];
     for (var i = 0; i < data.length; i++) {
-        var geoCoord = geoCoordMap[data[i].name];
+        var geoCoord = document.geoCoordMap[data[i].name];
         if (geoCoord) {
             res.push({
                 name: data[i].name,
@@ -275,7 +275,7 @@ function MapInit(data,title,flag)
         },
         series : [
             {
-                name: flag['地区'],
+                name: flag['地方'],
                 type: 'scatter',
                 coordinateSystem: 'geo',
                 data: convertData(data),
@@ -467,6 +467,14 @@ function RadarInit(datas,title,flag){
     };
     var indict=new Array();
     //init indict
+    var M=30;
+    if(flag['维度']=='统计')
+    {
+        M=1000;
+    }
+    for(var n in datas['name']){
+        indict.push({name:n,max:M});
+    }
     option = {
         backgroundColor: '#161627',
         title:title,
@@ -481,14 +489,7 @@ function RadarInit(datas,title,flag){
             selectedMode: 'single'
         },
         radar: {
-            indicator: [
-                {name: 'AQI', max: 300},
-                {name: 'PM2.5', max: 250},
-                {name: 'PM10', max: 300},
-                {name: 'CO', max: 5},
-                {name: 'NO2', max: 200},
-                {name: 'SO2', max: 100}
-            ],
+            indicator:indict,
             shape: 'circle',
             splitNumber: 5,
             name: {
@@ -516,10 +517,10 @@ function RadarInit(datas,title,flag){
         },
         series: [
             {
-                name: '北京',
+                name: flag['地方'],
                 type: 'radar',
                 lineStyle: lineStyle,
-                data: datas,
+                data: datas['value'],
                 symbol: 'none',
                 itemStyle: {
                     normal: {
@@ -537,6 +538,11 @@ function RadarInit(datas,title,flag){
 }
 function PieInit(datas,title,flag){
     var option=null;
+    var DD=new Array();
+    var L=datas['name'].length;
+    for(var i=0;i<L;i++){
+        DD.push({name:datas['name'][i],value:datas['value'][i]})
+    }
     option = {
         backgroundColor: '#2c343c',
 
@@ -556,17 +562,11 @@ function PieInit(datas,title,flag){
         },
         series : [
             {
-                name:'访问来源',
+                name:flag['地方']+flag['内容'],
                 type:'pie',
                 radius : '55%',
                 center: ['50%', '50%'],
-                data:[
-                    {value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:274, name:'联盟广告'},
-                    {value:235, name:'视频广告'},
-                    {value:400, name:'搜索引擎'}
-                ].sort(function (a, b) { return a.value - b.value; }),
+                data:DD.sort(function (a, b) { return a.value - b.value; }),
                 roseType: 'radius',
                 label: {
                     normal: {
@@ -604,6 +604,10 @@ function PieInit(datas,title,flag){
     return option;
 }
 function EchartInit(obj,data,title,type,flag){
+    if(data==null){
+        alert("对不起，可能您选择的数据或者图表我们还不支持哦！");
+        return;
+    }
     var myChart = echarts.init(obj);
     var app = {};
     var option = null;
