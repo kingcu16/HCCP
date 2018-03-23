@@ -4,13 +4,12 @@ $(function(){
 		'地方':'中国',
 		'维度':'统计',
 		'内容':'天气',
-		'Class':'map'
+		'Class':'pie'
 	};
 	var TimeFlag;
 	$("#tongjiData,#detailData,#choiceData,#quyuChoice,#Class").click(function(){
 		$(this).next().fadeToggle();
 	});
-
 	$("#quyu").click(function(){
 		if($(this).find("option:selected").text()=="地方"){
 			$(this).parent().next().fadeToggle();
@@ -23,9 +22,6 @@ $(function(){
 			document.Flag['地方']='中国'
 		}
 	});
-	$(":month").click(function(){
-		
-	})
 	$("#sf").click(function(){
 		document.Flag['地方']=$(this).find("option:selected").text();
 	});
