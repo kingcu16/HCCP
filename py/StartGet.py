@@ -11,6 +11,8 @@ import random
 import re
 import pymysql
 import pymysql.cursors
+import sys
+
 import getIp
 import getData
 import getDetails
@@ -28,13 +30,6 @@ city=[
         '金昌',
         '泉州',
         '莱西',
-        '日照',
-        '胶南',
-        '南通',
-        '拉萨',
-        '云浮',
-        '梅州',
-        '文登',
         '上海',
         '攀枝花',
         '威海',
@@ -47,31 +42,12 @@ city=[
         '曲靖',
         '烟台',
         '福州',
-        '瓦房店',
-        '即墨',
-        '抚顺',
-        '玉溪',
-        '张家口',
-        '阳泉',
-        '莱州',
-        '湖州',
-        '汕头',
-        '昆山',
-        '宁波',
         '湛江',
         '揭阳',
         '荣成',
         '连云港',
         '葫芦岛',
         '常熟',
-        '东莞',
-        '河源',
-        '淮安',
-        '泰州',
-        '南宁',
-        '营口',
-        '惠州',
-        '江阴',
         '蓬莱',
         '韶关',
         '嘉峪',
@@ -85,14 +61,6 @@ city=[
         '盘锦',
         '长治',
         '深圳',
-        '珠海',
-        '宿迁',
-        '咸阳',
-        '铜川',
-        '平度',
-        '佛山',
-        '海口',
-        '江门',
         '章丘',
         '肇庆',
         '大连',
@@ -109,12 +77,6 @@ city=[
         '张家港',
         '三门峡',
         '锦州',
-        '南昌',
-        '柳州',
-        '三亚',
-        '自贡',
-        '吉林',
-        '阳江',
         '泸州',
         '西宁',
         '宜宾',
@@ -130,12 +92,6 @@ city=[
         '金坛',
         '东营',
         '牡丹江',
-        '遵义',
-        '绍兴',
-        '扬州',
-        '常州',
-        '潍坊',
-        '重庆',
         '台州',
         '南京',
         '滨州',
@@ -170,13 +126,6 @@ city=[
         '临安',
         '兰州',
         '沧州',
-        '临沂',
-        '南充',
-        '天津',
-        '富阳',
-        '泰安',
-        '诸暨',
-        '郑州',
         '哈尔滨',
         '聊城',
         '芜湖',
@@ -188,15 +137,6 @@ city=[
         '荆州',
         '宜昌',
         '义乌',
-        '丽水',
-        '洛阳',
-        '秦皇岛',
-        '株洲',
-        '石家庄',
-        '莱芜',
-        '常德',
-        '保定',
-        '湘潭',
         '金华',
         '岳阳',
         '长沙',
@@ -228,7 +168,7 @@ def Start():
         if c in Citys:
             if len(IPagents)!=0:
                 proxy=random.choice(IPagents)
-                proxies=proxy[0]+":"+proxy[0]+"://"+proxy[1]
+                proxies={proxy[0]:proxy[0]+"://"+proxy[1]}
                 tongji.proxy=proxies
             tongji.urls=Citys[c]
             tongji.Init()
@@ -240,10 +180,11 @@ def Start():
             for i in [1,2,3]:
                 for key in tjData[i]:
                     tjDataTable.append([c,from_t,to_t,key,tjData[i][key]])
+            tongji.Save('../data/'+c+'tj.txt')  
             for Mounth in tjData[4]:
                 if len(IPagents)!=0:
                     proxy=random.choice(IPagents)
-                    proxies=proxy[0]+":"+proxy[0]+"://"+proxy[1]
+                    proxies={proxy[0]:proxy[0]+"://"+proxy[1]}
                     detail.proxy=proxies
                 detail.urls=tjData[4][Mounth]
                 detail.Init()
@@ -252,18 +193,22 @@ def Start():
                     continue
                 for row in detailData:
                     detailDataTable.append([c,Mounth,row['最高温'],row['最低温'],row['天气'],row['风向'],row['风力']])
+                detail.Save('../data/'+c+str(Mounth)+'d.txt')
         count+=1
-        print('\r'+str(count/len(city)*100)+'%')
+        sys.stdout.write('  ' * 10 + '\r')
+        sys.stdout.flush();
+        sys.stdout.write(str(count/len(city)*100)+'%\r')
+        sys.stdout.flush();
 def Insert():
 	config={'host':'123.206.208.213','user':'root','password':'king','db':'HCCP','port':3306,'charset':'utf8'}
 	try:
 		conn=pymysql.connect(**config)
 		cursor=conn.cursor()
 		for rows in tjDataTable:
-			Istring='insert into tqtongji values("'+rows[0]+'","'+rows[1]+'","'+rows[2]+'","'+rows[3]+'",'+str(rows[4])+')'
+			Istring='insert into tqtongji values(\"'+rows[0]+'\",\"'+rows[1]+'\",\"'+rows[2]+'\",\"'+rows[3]+'\",'+str(rows[4])+')'
 			cursor.execute(Istring)
 		for rows in detailDataTable:
-			Istring='insert into tqdetail values("'+rows[0]+'","'+rows[1]+'","'+rows[2]+'","'+rows[3]+'","'+rows[4]+'","'+rows[5]+')'
+			Istring='insert into tqdetail values(\"'+rows[0]+'\",\"'+rows[1]+'\",\"'+rows[2]+'\",\"'+rows[3]+'\",\"'+rows[4]+'\",\"'+rows[5]+'\")'
 			cursor.execute(Istring)
 	except Exception as e:
 		print(e)
@@ -272,4 +217,4 @@ def Insert():
 if __name__ == '__main__':
     #PrePare()
     Start()
-    Insert()
+    #Insert()
