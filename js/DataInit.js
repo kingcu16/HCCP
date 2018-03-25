@@ -14,22 +14,10 @@
 }*/
 function DataInit(flag){
     var DataForReturn;
-    $.post("../py/run.py",
+    $.post("123.206.208.213/HCCP/html/getData",
         flag,
         function(data)
         {
             DataForReturn=data;
         });
-}
-function getDetailData(city,date){
-    if($.inArray(city,document.CityData)==-1)
-    {
-        return null;
-    }
-    var DataForReturn={
-        'name':[],
-        'value':[],
-        'x':[]
-    };
-    return null;
 }
