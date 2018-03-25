@@ -14,7 +14,7 @@
 }*/
 function DataInit(flag){
     var DataForReturn;
-    $.post("123.206.208.213/HCCP/html/getData",
+    $.post("getData",
         flag,
         function(data)
         {
