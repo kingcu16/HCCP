@@ -27,7 +27,7 @@ try:
                     to_t=f.readline()[3:-1]
                     for s in f.readlines():
                         info=s.split(':')
-                        if info[0]=='from' or info[0]=='to' or len(info[1])>10 or len(info[0])==0 or info[0][0]=='h':
+                        if info[0]=='from' or info[0]=='to' or len(info[1])>10 or len(info[0])==0 or info[1][0]=='h':
                             continue
                         I_string='insert into tqtongji values("'+city+'","'+from_t+'","'+to_t+'","'+info[0]+'",'+info[1][:-1]+');'
                         cursor.execute(I_string)
@@ -42,9 +42,10 @@ try:
                         else:
                             I_string='insert into tqdetail values("'+city+'","'+date+'","'+info[0]+'","'+info[1][:-1]+'");'
                             cursor.execute(I_string)
-    conn.close()
+        conn.commit()
 except Exception as e:
     print(e)
     print(I_string)
 finally:
+    cursor.close()
     conn.close()

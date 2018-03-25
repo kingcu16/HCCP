@@ -52,7 +52,6 @@ class getMouthData(object):
 		with open(Path,'w') as f:
 				for i in self.detailData:
 					for key in i:
-						f.write(i[key]+'\t')
-					f.write('\n')
+						f.write(str(key)+'\t'+i[key]+'\n')
 	def getData(self):
 		return self.detailData

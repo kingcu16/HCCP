@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 class IPagent:
     def __init__(self):
         self.urls='http://www.xicidaili.com/nn/'
-        self.Stop=100
+        self.Stop=10
         self.IpListAll=[]
         self.http=[]
         self.IpListUse=[]
@@ -45,7 +45,7 @@ class IPagent:
             try:
                 r=requests.get('http://httpbin.org/get',proxies=proxy,timeout=1,headers=self.H)
                 r.raise_for_status()
-                self.IpListUse.append((self.http[i],self.IpListAll[i]))
+                self.IpListUse.append([self.http[i],self.IpListAll[i]])
                 #print(r.text[:10])
             except:
                 pass
