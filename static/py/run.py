@@ -6,14 +6,16 @@
 @email: kingcu16@163.com
 
 """
-from flask import Flask,request
+from flask import Flask,request,render_template
 from flask import json
 import re
-app=Flask(__name__)
+app=Flask(__name__,static_folder='')
 
-@app.route('../html/index.html')
-@app.route('/test.html')
-@app.route('/')
+@app.route('/HCCP/html/index.html')
+def index():
+    return render_template("index.html")
+
+@app.route("/HCCP/html/getData")
 def getData():
     ReturnData=None
     flag=json.loads(request.form.get('data'))
@@ -50,7 +52,7 @@ def getWeatherDataTjCH():
         return json.dumps(ReturnData)
     ReturnData={}
     for c in CityData:
-        with open('../data/'+c+'tj.txt') as f:
+        with open('./data/'+c+'tj.txt') as f:
             for s in f.readlines():
                 Info=s.split(':')
                 if(Info[0]=='晴'):
@@ -71,7 +73,7 @@ def getSomeWhereDataTj(city,con):
         ReturnData['name']=C[con]
         ReturnData['x']=C[con]
     ReturnData['value']=[0]*len(C[con])
-    with open('../data/'+city+'tj.txt') as f:
+    with open('./data/'+city+'tj.txt') as f:
         for s in f.readlines():
             Info=s.split(':')
             for i in range(len(C[con])):
@@ -93,7 +95,7 @@ def getDetailData(city,date,con):
         ReturnData['name']=C[con]
         ReturnData['x']=C[con]
     ReturnData['value']=[0]*len(C[con])
-    with open('../data/'+city+date+'d.txt') as f:
+    with open('./data/'+city+date+'d.txt') as f:
         for s in f.readlines():
             Info=s.split(':')
             for i in range(len(C[con])):
@@ -108,7 +110,7 @@ def getTempData(city,date):
     'data':[['最高温'],['最低温']],
     'x':[]
     }
-    with open('../data/'+city+date+'d.txt') as f:
+    with open('./data/'+city+date+'d.txt') as f:
         for s in f.readlines():
             Info=s.split('\t')
             if Info[0]=='日期':
@@ -249,4 +251,4 @@ if __name__ == '__main__':
         '武汉',
         '大庆'
         ];
-    app.run()
+    app.run(host='0.0.0.0')

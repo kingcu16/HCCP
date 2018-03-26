@@ -4,12 +4,15 @@ $(function(){
 		'地方':'中国',
 		'维度':'统计',
 		'内容':'天气',
-		'Class':'pie'
+		'Class':'map'
 	};
 	var TimeFlag;
 	$("#tongjiData,#detailData,#choiceData,#quyuChoice,#Class").click(function(){
 		$(this).next().fadeToggle();
 	});
+	$('#date').keyup(function (){
+		document.Flag['时间']=$(this).attr('value');
+	})
 	$("#quyu").click(function(){
 		if($(this).find("option:selected").text()=="地方"){
 			$(this).parent().next().fadeToggle();
