@@ -9,6 +9,7 @@
 from flask import Flask,request,render_template
 from flask import json
 import re
+import os
 app=Flask(__name__)
 
 @app.route('/HCCP/html/index.html')
@@ -60,11 +61,14 @@ def getWeatherDataTjCH():
     ReturnData={}
     ReturnData['value']=[]
     for c in CityData:
-        with open('./static/data/'+c+'tj.txt') as f:
-            for s in f.readlines():
-                Info=s.split(':')
-                if(Info[0]=='晴'):
-                    ReturnData['value'].append(int(Info[1]))
+        fileName='./static/data/'+c+'tj.txt'
+        if os.path.exists(fileName):
+            with open(fileName) as f:
+                for s in f.readlines():
+                    Info=s.split(':')
+                    if(Info[0]=='晴'):
+                        #print(Info[1])
+                        ReturnData['value'].append({'name':c,'value':int(Info[1])})
     return json.dumps(ReturnData)
 def getSomeWhereDataTj(city,con):
     if not city in CityData:
@@ -75,18 +79,21 @@ def getSomeWhereDataTj(city,con):
         '风向':['东风','西风','北风','南风','东北风','西北风','东南风','西南风']
     }
     ReturnData={}
+
     if not con in C.keys:
         return json.dumps(None)
     else:
         ReturnData['name']=C[con]
         ReturnData['x']=C[con]
     ReturnData['value']=[0]*len(C[con])
-    with open('./static/data/'+city+'tj.txt') as f:
-        for s in f.readlines():
-            Info=s.split(':')
-            for i in range(len(C[con])):
-                if re.match(C[con][i],Info[0]):
-                    ReturnData['value'][i]+=int(Info[1]);
+    fileName='./static/data/'+city+'tj.txt'
+    if os.path.exists(fileName):
+        with open(fileName) as f:
+            for s in f.readlines():
+                Info=s.split(':')
+                for i in range(len(C[con])):
+                    if re.match(C[con][i],Info[0]):
+                        ReturnData['value'][i]+=int(Info[1]);
     return json.dumps(ReturnData)
 def getDetailData(city,date,con):
     if not city in CityData:
@@ -103,13 +110,15 @@ def getDetailData(city,date,con):
         ReturnData['name']=C[con]
         ReturnData['x']=C[con]
     ReturnData['value']=[0]*len(C[con])
-    with open('./static/data/'+city+date+'d.txt') as f:
-        for s in f.readlines():
-            Info=s.split(':')
-            for i in range(len(C[con])):
-                if re.match(con,Info[0]):
-                    if re.match(C[con][i], Info[1]):
-                        ReturnData['value'][i]+=1;
+    fileName='./static/data/'+city+date+'d.txt'
+    if os.path.exists(fileName):
+        with open(fileName) as f:
+            for s in f.readlines():
+                Info=s.split(':')
+                for i in range(len(C[con])):
+                    if re.match(con,Info[0]):
+                        if re.match(C[con][i], Info[1]):
+                            ReturnData['value'][i]+=1;
     return json.dumps(ReturnData)
 def getTempData(city,date):
     if not city in CityData:
@@ -118,15 +127,17 @@ def getTempData(city,date):
     'data':[['最高温'],['最低温']],
     'x':[]
     }
-    with open('./static/data/'+city+date+'d.txt') as f:
-        for s in f.readlines():
-            Info=s.split('\t')
-            if Info[0]=='日期':
-                ReturnData['x'].append(Info[1][:-1])
-            if Info[0]=='最高温':
-                ReturnData['data'][0].append(int(Info[1]))
-            if Info[0]=='最低温':
-                ReturnData['data'][1].append(int(Info[1]))
+    fileName='./static/data/'+city+date+'d.txt'
+    if os.path.exists(fileName):
+        with open(fileName) as f:
+            for s in f.readlines():
+                Info=s.split('\t')
+                if Info[0]=='日期':
+                    ReturnData['x'].append(Info[1][:-1])
+                if Info[0]=='最高温':
+                    ReturnData['data'][0].append(int(Info[1]))
+                if Info[0]=='最低温':
+                    ReturnData['data'][1].append(int(Info[1]))
     return json.dumps(ReturnData)
 if __name__ == '__main__':
     CityData=[
