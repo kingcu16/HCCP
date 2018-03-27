@@ -9,16 +9,23 @@
 from flask import Flask,request,render_template
 from flask import json
 import re
-app=Flask(__name__,static_folder='../HCCP')
+app=Flask(__name__)
 
 @app.route('/HCCP/html/index.html')
 def index():
     return render_template("index.html")
 
-@app.route("/HCCP/html/getData",'POST')
+@app.route("/HCCP/html/getData",methods=['post'])
 def getData():
     ReturnData=None
-    flag=json.loads(request.form.get('data'))
+    flag={}
+    flag['维度']=request.form.get('维度')
+    flag['地方']=request.form.get('地方')
+    flag['区域']=request.form.get('区域')
+    flag['内容']=request.form.get('内容')
+    flag['Class']=request.form.get('Class')
+    flag['时间']=request.form.get('时间')
+    
     if flag['维度']=='统计':
         if flag['区域']=='全国':
             if flag['内容']=='风向':
@@ -51,8 +58,9 @@ def getWeatherDataTjCH():
     if len(CityData)==0:
         return json.dumps(ReturnData)
     ReturnData={}
+    ReturnData['value']=[]
     for c in CityData:
-        with open('./data/'+c+'tj.txt') as f:
+        with open('./static/data/'+c+'tj.txt') as f:
             for s in f.readlines():
                 Info=s.split(':')
                 if(Info[0]=='晴'):
@@ -73,7 +81,7 @@ def getSomeWhereDataTj(city,con):
         ReturnData['name']=C[con]
         ReturnData['x']=C[con]
     ReturnData['value']=[0]*len(C[con])
-    with open('./data/'+city+'tj.txt') as f:
+    with open('./static/data/'+city+'tj.txt') as f:
         for s in f.readlines():
             Info=s.split(':')
             for i in range(len(C[con])):
@@ -95,7 +103,7 @@ def getDetailData(city,date,con):
         ReturnData['name']=C[con]
         ReturnData['x']=C[con]
     ReturnData['value']=[0]*len(C[con])
-    with open('./data/'+city+date+'d.txt') as f:
+    with open('./static/data/'+city+date+'d.txt') as f:
         for s in f.readlines():
             Info=s.split(':')
             for i in range(len(C[con])):
@@ -110,7 +118,7 @@ def getTempData(city,date):
     'data':[['最高温'],['最低温']],
     'x':[]
     }
-    with open('./data/'+city+date+'d.txt') as f:
+    with open('./static/data/'+city+date+'d.txt') as f:
         for s in f.readlines():
             Info=s.split('\t')
             if Info[0]=='日期':
@@ -251,4 +259,4 @@ if __name__ == '__main__':
         '武汉',
         '大庆'
         ];
-    app.run()
+    app.run(host='0.0.0.0')
