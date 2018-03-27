@@ -4,21 +4,22 @@ $(function(){
 		'地方':'中国',
 		'维度':'统计',
 		'内容':'天气',
-		'Class':'map'
+		'Class':'map',
+		'时间':'2018-2'
 	};
 	var TimeFlag;
 	$("#tongjiData,#detailData,#choiceData,#quyuChoice,#Class").click(function(){
 		$(this).next().fadeToggle();
 	});
-	$('#date').keyup(function (){
-		document.Flag['时间']=$(this).attr('value');
+	$('#date').change(function (){
+		document.Flag['时间']=$(this).val();
 	})
 	$("#quyu").click(function(){
 		if($(this).find("option:selected").text()=="地方"){
 			$(this).parent().next().fadeToggle();
 			$(this).parent().next().next().fadeToggle();
 			document.Flag['区域']='地方';
-			document.Flag['时间']='2018-02';
+			document.Flag['时间']='2018-2';
 		}
 		else{
 			document.Flag['区域']='全国';
@@ -84,6 +85,7 @@ $(function(){
 	});
 	$('#tjiao').click(function(){
 		var Data=DataInit(document.Flag);
+		//alert(Data);
 		var title={
 			text:document.Flag['区域']+document.Flag['维度']+document.Flag['内容']+'信息',
 			left: 'center',
@@ -91,6 +93,7 @@ $(function(){
 		            color: '#fff'
 		        }
 		}
-		EchartInit($('#dituContent'),Data,title,document.Flag['Class'],document.Flag);
+
+		EchartInit(document.getElementById('dituContent'),Data,title,document.Flag['Class'],document.Flag);
 	})
 })

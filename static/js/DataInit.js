@@ -13,11 +13,17 @@
     value:[]
 }*/
 function DataInit(flag){
+    
     var DataForReturn;
+    $.ajaxSetup({
+        async: false
+    });
     $.post("getData",
         flag,
         function(data)
         {
-            DataForReturn=data;
+            DataForReturn=$.parseJSON(data);
+            //alert(data['value']);
         });
+    return DataForReturn;
 }

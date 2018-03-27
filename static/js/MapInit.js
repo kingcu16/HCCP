@@ -278,7 +278,7 @@ function MapInit(data,title,flag)
                 name: flag['地方'],
                 type: 'scatter',
                 coordinateSystem: 'geo',
-                data: convertData(data),
+                data: convertData(data['value']),
                 symbolSize: function (val) {
                     return val[2] / 10;
                 },
@@ -306,7 +306,7 @@ function MapInit(data,title,flag)
                 name: 'Top 5',
                 type: 'effectScatter',
                 coordinateSystem: 'geo',
-                data: convertData(data.sort(function (a, b) {
+                data: convertData(data['value'].sort(function (a, b) {
                     return b.value - a.value;
                 }).slice(0, 6)),
                 symbolSize: function (val) {
