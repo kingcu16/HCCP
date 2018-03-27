@@ -95,7 +95,7 @@ class  getDetail(object):
 			print(e)
 			print(self.urls)
 	def Save(self,Path='details.txt'):
-		with open(Path,'w') as f:
+		with open(Path,'w',encoding='utf-8') as f:
 				for i in self.details:
 					for key in i:
 						f.write(str(key)+':'+str(i[key])+'\n')

@@ -49,7 +49,7 @@ class getMouthData(object):
 			print(e)
 			print(self.urls)
 	def Save(self,Path='detailData.txt'):
-		with open(Path,'w') as f:
+		with open(Path,'w',encoding='utf-8') as f:
 				for i in self.detailData:
 					for key in i:
 						f.write(str(key)+'\t'+i[key]+'\n')

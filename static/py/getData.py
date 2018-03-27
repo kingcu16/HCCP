@@ -31,7 +31,7 @@ class CityData:
 			#print("SHIT!")
 			print(e)
 	def Save(self,Path='../data/citys.txt'):
-		with open(Path,'w') as f:
+		with open(Path,'w',encoding='utf-8') as f:
 			#for i in range(len(self.Alpha)):
 			for j in self.CityData:
 				f.write(j+'\t'+self.CityData[j]+'\n')
