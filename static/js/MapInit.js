@@ -374,10 +374,13 @@ function SetTime(myChart){
 }
 function LineInit(datas,titles,flag)
 {
+    var Type={'温度':'摄氏度°C','天气':'天','风力':'级','风向':''}
     var option = null;
     var ser=new Array();
     var legends=Array();
-    for(var d in datas['data']){
+    for(var i=0;i<datas['data'].length;i++)
+    {
+        d=datas['data'][i];
         legends.push(d[0]);
         ser.push({
                 name:d[0],
@@ -411,7 +414,11 @@ function LineInit(datas,titles,flag)
             data: datas['x']
         },
         yAxis: {
-            type: 'value'
+            type: 'value',
+            axisLabel:{
+                formatter:'{value}'+Type[flag['内容']]
+            },
+            splitNumber:10
         },
         series: ser
     };
@@ -452,7 +459,7 @@ function barInit(datas,title,flag){
                 name:datas['name'],
                 type:'bar',
                 barWidth: '60%',
-                data:datas['vale']
+                data:datas['value']
             }
         ]
     };
@@ -467,13 +474,17 @@ function RadarInit(datas,title,flag){
     };
     var indict=new Array();
     //init indict
-    var M=30;
-    if(flag['维度']=='统计')
+    var M=0;
+    for(var i=0;i<datas['value'].length;i++)
     {
-        M=1000;
+        if(M<datas['value'][i])
+        {
+            M=datas['value'][i];
+        }
     }
-    for(var n in datas['name']){
-        indict.push({name:n,max:M});
+    for(var i=0;i<datas['name'].length;i++)
+    {
+        indict.push({name:datas['name'][i],max:M})
     }
     option = {
         backgroundColor: '#161627',
@@ -520,7 +531,7 @@ function RadarInit(datas,title,flag){
                 name: flag['地方'],
                 type: 'radar',
                 lineStyle: lineStyle,
-                data: datas['value'],
+                data:[{ value:datas['value']}],
                 symbol: 'none',
                 itemStyle: {
                     normal: {
@@ -535,13 +546,23 @@ function RadarInit(datas,title,flag){
             }
         ]
     };
+    return option;
 }
 function PieInit(datas,title,flag){
     var option=null;
     var DD=new Array();
     var L=datas['name'].length;
+    var min=1000,max=0;
     for(var i=0;i<L;i++){
-        DD.push({name:datas['name'][i],value:datas['value'][i]})
+        DD.push({name:datas['name'][i],value:datas['value'][i]});
+        if(min>datas['value'][i])
+        {
+            min=datas['value'][i];
+        }
+        if(max<datas['value'][i])
+        {
+            max=datas['value'][i];
+        }
     }
     option = {
         backgroundColor: '#2c343c',
@@ -554,8 +575,8 @@ function PieInit(datas,title,flag){
 
         visualMap: {
             show: false,
-            min: 80,
-            max: 600,
+            min: min,
+            max: max,
             inRange: {
                 colorLightness: [0, 1]
             }
