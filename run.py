@@ -47,7 +47,7 @@ def getData():
         if flag['内容']=='温度':
             if flag['Class']!='line':
                 return json.dumps(ReturnData)
-            return getTempData(flag['地方'],flag['时间'])
+            return getTempData(flag['地方'],flag['时间'],flag['内容'])
         else:
             if flag['Class']=='map':
                 return json.dumps(ReturnData)
@@ -76,11 +76,13 @@ def getSomeWhereDataTj(city,con):
     C={
         '天气':['晴','雨','多云','雪','阴','沙尘'],
         '风力':['微风','1级','2级','3级','4级','5级','6级','7级','7级以上'],
-        '风向':['东风','西风','北风','南风','东北风','西北风','东南风','西南风']
+        '风向':['北风','西北风','西风','西南风','南风','东南风','东风','东北风']
     }
     ReturnData={}
 
-    if not con in C.keys:
+    try:
+        temp=C[con]
+    except KeyError as e:
         return json.dumps(None)
     else:
         ReturnData['name']=C[con]
@@ -101,10 +103,11 @@ def getDetailData(city,date,con):
     C={
         '天气':['晴','雨','多云','雪','阴','沙尘'],
         '风力':['微风','1级','2级','3级','4级','5级','6级','7级','7级以上'],
-        '风向':['东风','西风','北风','南风','东北风','西北风','东南风','西南风']
-    }
+        '风向':['北风','西北风','西风','西南风','南风','东南风','东风','东北风']    }
     ReturnData={}
-    if not con in C.keys:
+    try:
+        temp=C[con]
+    except KeyError as e:
         return json.dumps(None)
     else:
         ReturnData['name']=C[con]
@@ -114,19 +117,31 @@ def getDetailData(city,date,con):
     if os.path.exists(fileName):
         with open(fileName) as f:
             for s in f.readlines():
-                Info=s.split(':')
+                Info=s.split('\t')
+                if len(Info)!=2:
+                    continue
                 for i in range(len(C[con])):
                     if re.match(con,Info[0]):
-                        if re.match(C[con][i], Info[1]):
+                        if re.match(C[con][i],Info[1]):
                             ReturnData['value'][i]+=1;
     return json.dumps(ReturnData)
-def getTempData(city,date):
+def getTempData(city,date,con):
     if not city in CityData:
         return json.dumps(None)
-    ReturnData={
-    'data':[['最高温'],['最低温']],
-    'x':[]
+    C={
+        '温度':[['最高温'],['最低温']],
+        '天气':[['晴'],['雨'],['多云'],['雪'],['阴'],['沙尘']],
+        '风力':[['微风'],['1级'],['2级'],['3级'],['4级'],['5级'],['6级'],['7级'],['7级以上']],
+        '风向':[['东风'],['西风'],['北风'],['南风'],['东北风'],['西北风'],['东南风'],['西南风']]
     }
+    ReturnData={}
+    try:
+        temp=C[con]
+    except KeyError as e:
+        return json.dumps(None)
+    else:
+        ReturnData['data']=C[con]
+        ReturnData['x']=[]
     fileName='./static/data/'+city+date+'d.txt'
     if os.path.exists(fileName):
         with open(fileName) as f:
